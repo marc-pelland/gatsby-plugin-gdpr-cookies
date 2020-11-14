@@ -17,6 +17,14 @@ module.exports = {
       options: {
         googleAnalytics: {
           trackingId: 'YOUR_GOOGLE_ANALYTICS_TRACKING_ID', // leave empty if you want to disable the tracker
+          trackingIdsByLocale: [
+            {
+              subdomain: 'URL_PARAMETER_FOR_URL',
+              code: 'YOUR_GOOGLE_ANALYTICS_TRACKING_ID',
+              country: 'COUNTRY_CODE',
+              locale: 'LOCALE',
+            }
+          ],
           cookieName: 'gatsby-gdpr-google-analytics', // default
           anonymize: true, // default
           allowAdFeatures: false // default
@@ -157,7 +165,6 @@ Here you place your Facebook Pixel ID.
 #### `cookieName`
 
 You can use a custom cookie name if you need to!
-
 
 ## Contributors
 

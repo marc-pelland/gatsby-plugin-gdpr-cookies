@@ -31,13 +31,36 @@ export const onClientEntry = (_, pluginOptions = {}) => {
   }
 }
 
-// initializing helpers
+/**
+ * initialize ga tracking
+ * added the ability to use a lookup table for GA ids based on locale
+ *
+ * @param {*} options
+ */
 const initGoogleAnalytics = (options) => {
+  let localeBasedId = null;
+
+  if (options.googleAnalytics.trackingIdsByLocale && options.googleAnalytics.trackingIdsByLocale.length > 0) {
+    const tids = options.googleAnalytics.trackingIdsByLocale;
+    const referrer = document.referrer;
+    // get the pathname (en-us, es-es, etc)
+    const pathname = (window.location.pathname.split('/').join('') === '') ? 'en-us' : window.location.pathname.split('/').join('');
+
+    // get a list o the tids in the system
+    if (pathname && tids.find(obj => obj.subdomain === pathname)) {
+      const locale = tids.find(obj => obj.subdomain === pathname);
+      localeBasedId = locale.code;
+    }
+
+    console.log(referrer, pathname)
+    window.referrer = "";
+  }
+
   if (
     cookies.get(options.googleAnalytics.cookieName) === `true` &&
     validGATrackingId(options)
   ) {
-    ReactGA.initialize(options.googleAnalytics.trackingId)
+    ReactGA.initialize(localeBasedId || options.googleAnalytics.trackingId)
     window.GoogleAnalyticsIntialized = true
   }
 }
