@@ -14,7 +14,7 @@ const currentEnvironment =
   process.env.ENV || process.env.NODE_ENV || `development`
 
 const isEnvironmentValid = (environments) => {
-  console.log(`CURRENT ENVIRONMENT`, currentEnvironment)
+  console.log(`CURRENT ENVIRONMENT`, currentEnvironment, environments)
   return environments.includes(currentEnvironment)
 }
 
